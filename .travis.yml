@@ -16,7 +16,7 @@ install:
 before_script:
   - sudo service postgresql restart
   - systemctl status postgresql.service
-  - sudo service mysql restart
+  - systemctl status mysql.service
   - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then
       pip install black ;
       black --check . ;
