@@ -20,7 +20,7 @@ install:
 before_script:
   - sudo service postgresql restart
   - systemctl status postgresql.service
-  - sudo chown -R postgres:postgres /var/lib/postgresql/9.6/ && sudo chmod -R u=rwX,go= /var/lib/postgresql/9.6/
+ # - sudo chown -R postgres:postgres /var/lib/postgresql/9.6/ && sudo chmod -R u=rwX,go= /var/lib/postgresql/9.6/
   - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then
       pip install black ;
       black --check . ;
