@@ -11,13 +11,11 @@ services:
   - mysql
   - postgresql
   
-addons:
-    postgresql: '12' 
-    
 install:
   - pip install codespell flake8 pytest-cov -r requirements.txt -r test_requirements.txt
 
 before_script:
+  - chown -R postgres:postgres /var/lib/postgresql/9.6/ && chmod -R u=rwX,go= /var/lib/postgresql/9.6/
   - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then
       pip install black ;
       black --check . ;
