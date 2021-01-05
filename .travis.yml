@@ -11,21 +11,12 @@ services:
   - mysql
   - postgresql
 
-addons:
-    postgresql: '9.6' 
-    
-before_install:
-  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('123123') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-  - sudo mysql_upgrade -u root -p123123
-  - sudo service mysql restart
-  
 install:
   - pip install codespell flake8 pytest-cov -r requirements.txt -r test_requirements.txt
 
 before_script:
   - sudo service postgresql restart
   - systemctl status postgresql.service
- # - sudo chown -R postgres:postgres /var/lib/postgresql/9.6/ && sudo chmod -R u=rwX,go= /var/lib/postgresql/9.6/
   - if [ "$TRAVIS_PYTHON_VERSION" = "3.8" ]; then
       pip install black ;
       black --check . ;
@@ -35,7 +26,7 @@ before_script:
   # exit-zero treats all errors as warnings.  The GitHub editor is 127 chars wide
   - flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
   - psql -c 'create database webpy;' -U postgres
-  - mysql --user=root -e "create user 'scott'@'localhost' identified by '123123'; create database webpy; grant all privileges on webpy.* to 'scott'@'localhost' with grant option;"
+  - mysql --user=travis -e "create user 'scott'@'localhost' identified by 'tiger'; create database webpy; grant all privileges on webpy.* to 'scott'@'localhost' with grant option;"
 
 script:
   - pytest --cov --cov-report=term-missing --cov-report=xml
