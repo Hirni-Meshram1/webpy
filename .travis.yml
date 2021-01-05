@@ -14,6 +14,11 @@ services:
 addons:
     postgresql: '9.6' 
     
+before_install:
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('123123') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -p123123
+  - sudo service mysql restart
+  
 install:
   - pip install codespell flake8 pytest-cov -r requirements.txt -r test_requirements.txt
 
